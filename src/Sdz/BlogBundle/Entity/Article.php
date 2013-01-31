@@ -52,6 +52,11 @@ class Article
     private $contenu;
 
     /**
+    * @ORM\Column(type="date", nullable=true)
+    */
+    private $dateEdition;
+
+    /**
     * @ORM\Column(name="publication", type="boolean")
     */
     private $publication;
@@ -79,8 +84,10 @@ class Article
 
     public function __construct()
     {
-        $this->date = new \Datetime();
-        $this->publication = true;
+        $this->date     = new \Datetime;
+        $this->publication  = true;
+        $this->categories   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -326,5 +333,28 @@ class Article
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set dateEdition
+     *
+     * @param \DateTime $dateEdition
+     * @return Article
+     */
+    public function setDateEdition($dateEdition)
+    {
+        $this->dateEdition = $dateEdition;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateEdition
+     *
+     * @return \DateTime 
+     */
+    public function getDateEdition()
+    {
+        return $this->dateEdition;
     }
 }

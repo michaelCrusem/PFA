@@ -43,43 +43,82 @@ class __TwigTemplate_943895b2de91a417d3bba0bde426d0b4 extends Twig_Template
   <h2>Liste des articles</h2>
  
   <ul>
-    ";
+  ";
         // line 14
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "articles"));
         $context['_iterated'] = false;
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
         foreach ($context['_seq'] as $context["_key"] => $context["article"]) {
             // line 15
-            echo "      <li>
-        <a href=\"";
+            echo "    ";
             // line 16
-            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("sdzblog_voir", array("id" => $this->getAttribute($this->getContext($context, "article"), "id"))), "html", null, true);
-            echo "\">";
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "article"), "titre"), "html", null, true);
-            echo "</a>
-        par ";
+            echo "    ";
+            $this->env->loadTemplate("SdzBlogBundle:Blog:article.html.twig")->display(array_merge($context, array("accueil" => true)));
             // line 17
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "article"), "auteur"), "html", null, true);
-            echo ",
-        le ";
-            // line 18
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute($this->getContext($context, "article"), "date"), "d/m/Y"), "html", null, true);
-            echo "
-      </li>
-    ";
+            echo "    <hr />
+  ";
             $context['_iterated'] = true;
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
         }
         if (!$context['_iterated']) {
-            // line 21
-            echo "      <li>Pas (encore !) d'articles</li>
-    ";
+            // line 19
+            echo "    <p>Pas (encore !) d'articles</p>
+  ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['article'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 23
-        echo "  </ul>
- 
+        // line 21
+        echo "</ul>
+ <div class=\"pagination\">
+    <ul>
+      ";
+        // line 25
+        echo "      ";
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable(range(1, $this->getContext($context, "nombrePage")));
+        foreach ($context['_seq'] as $context["_key"] => $context["p"]) {
+            // line 26
+            echo "        <li";
+            if (($this->getContext($context, "p") == $this->getContext($context, "page"))) {
+                echo " class=\"active\"";
+            }
+            echo ">
+          <a href=\"";
+            // line 27
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("sdzblog_accueil", array("page" => $this->getContext($context, "p"))), "html", null, true);
+            echo "\">";
+            echo twig_escape_filter($this->env, $this->getContext($context, "p"), "html", null, true);
+            echo "</a>
+        </li>
+      ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['p'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 30
+        echo "    </ul>
+  </div>
 ";
     }
 
@@ -95,6 +134,6 @@ class __TwigTemplate_943895b2de91a417d3bba0bde426d0b4 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  81 => 23,  74 => 21,  66 => 18,  62 => 17,  56 => 16,  53 => 15,  48 => 14,  42 => 10,  39 => 9,  32 => 6,  29 => 5,);
+        return array (  120 => 30,  109 => 27,  102 => 26,  97 => 25,  92 => 21,  85 => 19,  71 => 17,  68 => 16,  66 => 15,  48 => 14,  42 => 10,  39 => 9,  32 => 6,  29 => 5,);
     }
 }
