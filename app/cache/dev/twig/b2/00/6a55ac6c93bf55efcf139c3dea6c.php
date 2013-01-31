@@ -47,23 +47,6 @@ class __TwigTemplate_b2006a55ac6c93bf55efcf139c3dea6c extends Twig_Template
         $this->env->loadTemplate("SdzBlogBundle:Blog:formulaire.html.twig")->display($context);
         // line 14
         echo " 
-  <p>
-    Vous éditez un article déjà existant,
-    ne le changez pas trop pour éviter
-    aux membres de ne pas comprendre
-    ce qu'il se passe.
-  </p>
- 
-  <p>
-    <a href=\"";
-        // line 23
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("sdzblog_voir", array("id" => $this->getAttribute($this->getContext($context, "article"), "id"))), "html", null, true);
-        echo "\" class=\"btn\">
-      <i class=\"icon-chevron-left\"></i>
-      Retour à l'article
-    </a>
-  </p>
- 
 ";
     }
 
@@ -79,6 +62,6 @@ class __TwigTemplate_b2006a55ac6c93bf55efcf139c3dea6c extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  60 => 23,  49 => 14,  47 => 13,  42 => 10,  39 => 9,  32 => 6,  29 => 5,);
+        return array (  49 => 14,  47 => 13,  42 => 10,  39 => 9,  32 => 6,  29 => 5,);
     }
 }

@@ -5,8 +5,9 @@
 namespace Sdz\BlogBundle\Controller;
  
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sdz\BlogBundle\Form\ArticleType;
 use Sdz\BlogBundle\Entity\Article;
- 
+
 class BlogController extends Controller
 {
    public function indexAction($page)
@@ -45,40 +46,45 @@ class BlogController extends Controller
  
   public function ajouterAction()
   {
-    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
-   
-    if ($this->get('request')->getMethod() == 'POST') {
-      // Ici, on s'occupera de la création et de la gestion du formulaire
-   
-      $this->get('session')->getFlashBag()->add('info', 'Article bien enregistré');
-   
-      // Puis on redirige vers la page de visualisation de cet article
-      return $this->redirect( $this->generateUrl('sdzblog_voir', array('id' => 1)) );
+    $article = new Article;
+    $form = $this->createForm(new ArticleType, $article);
+    $request = $this->get('request');
+    if( $request->getMethod() == 'POST' )
+    {
+      $form->bind($request);
+      if( $form->isValid() )
+      {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($article);
+        $em->flush();
+        return $this->redirect( $this->generateUrl('sdzblog_accueil') );
+      }
     }
-   
-    // Si on n'est pas en POST, alors on affiche le formulaire
-    return $this->render('SdzBlogBundle:Blog:ajouter.html.twig');
+    return $this->render('SdzBlogBundle:Blog:ajouter.html.twig', array(
+      'form' => $form->createView(),
+    ));
   }
  
   public function modifierAction($id)
   {
-    // On récupère l'EntityManager
-    $em = $this->getDoctrine()
-               ->getEntityManager();
- 
-    // On récupère l'entité correspondant à l'id $id
-    $article = $em->getRepository('SdzBlogBundle:Article')
-                  ->find($id);
- 
-    // Si l'article n'existe pas, on affiche une erreur 404
-    if ($article == null) {
-      throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
+    $article = $this->getDoctrine()
+                    ->getRepository('Sdz\BlogBundle\Entity\Article')
+                    ->find($id);
+    $form = $this->createForm(new ArticleType, $article);
+    $request = $this->get('request');
+    if( $request->getMethod() == 'POST' )
+    {
+      $form->bind($request);
+      if( $form->isValid() )
+      {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($article);
+        $em->flush();
+        return $this->redirect( $this->generateUrl('sdzblog_accueil') );
+      }
     }
- 
-    // Ici, on s'occupera de la création et de la gestion du formulaire
- 
     return $this->render('SdzBlogBundle:Blog:modifier.html.twig', array(
-      'article' => $article
+      'form' => $form->createView(),
     ));
   }
  
